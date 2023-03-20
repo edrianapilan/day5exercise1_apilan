@@ -1,0 +1,38 @@
+<mvc:View controllerName="zbtp.day5exercise1eds.controller.Home" displayBlock="true" xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <f:SimpleForm id="SimpleFormToolbar" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4"
+                labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
+                emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                <f:toolbar>
+                    <Toolbar id="TB1">
+                        <Title id="FormTitle" text="Personal Details" level="H4" titleStyle="H4" />
+                    </Toolbar>
+                </f:toolbar>
+                <f:content>
+                    <Label id="NameLabel" text="Name" />
+                    <Input id="NameInput" value="NULL" />
+                    <Label id="StreetLabel" text="Street/No." />
+                    <Input id="StreetInput" value="NULL"></Input>
+                    <Label id="AgeLabel" text="Age" />
+                    <Input id="AgeInput" value="NULL">
+                    <layoutData>
+                        <l:GridData id="AgeLayout" span="XL2 L1 M3 S4" />
+                    </layoutData>
+                    </Input>
+                    <Label id="TechLabel" text="Which you love most
+                    ?" />
+                    <Select id="TechInput" selectedKey="{Tech}">
+                        <items>
+                            <core:Item id="HANA" text="HANA" key="HANA" />
+                            <core:Item id="SAPUI5" text="SAPUI5" key="SAPUI5" />
+                            <core:Item id="ABAP" text="ABAP" key="ABAP" />
+                        </items>
+                    </Select>
+                    <Button id="SendButton" type="Default" press="onSendBtn" text="Send" />
+                </f:content>
+            </f:SimpleForm>
+        </content>
+    </Page>
+</mvc:View>
