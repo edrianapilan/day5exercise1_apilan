@@ -15,8 +15,6 @@ sap.ui.define([
             onInit: function () {
                 this.getI18nModel();
                 this.getAddressModel();
-
-
             }, 
 
             onSelectProduct: function (oEvent) {
