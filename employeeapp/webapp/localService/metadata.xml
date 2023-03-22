@@ -3,7 +3,7 @@
         <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="NorthwindModel">
             <EntityType Name="Employee">
                 <Key>
-                    <PropertyRef Name="FirstName" />
+                    <PropertyRef Name="EmployeeID" />
                 </Key>
                 <Property Name="EmployeeID" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
                 <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
@@ -12,6 +12,9 @@
                 <Property Name="DateHire" Type="Edm.String" Nullable="false" />
                 <Property Name="CareerLevel" Type="Edm.String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
                 <Property Name="CurrentProject" Type="Edm.String" Nullable="true" MaxLength="40" Unicode="true" FixedLength="false" />
+                <NavigationProperty Name="Skill" Relationship="NorthwindModel.FK_Skill_Employee" FromRole="Employee" ToRole="Skill" />
+                <NavigationProperty Name="CareerList" Relationship="NorthwindModel.FK_Employee_CareerList" FromRole="Employee" ToRole="CareerList" />
+                <NavigationProperty Name="ProjectList" Relationship="NorthwindModel.FK_Employee_ProjectList" FromRole="Employee" ToRole="ProjectList" />
             </EntityType>
             <EntityType Name="ProjectList">
                 <Key>
@@ -19,6 +22,7 @@
                 </Key>
                 <Property Name="ProjectID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
                 <Property Name="ProjectName" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
+                <NavigationProperty Name="Employee" Relationship="NorthwindModel.FK_Employee_ProjectList" FromRole="ProjectList" ToRole="Employee" />
             </EntityType>
             <EntityType Name="Skill">
                 <Key>
@@ -28,6 +32,8 @@
                 <Property Name="SkillID" Type="Edm.String" Nullable="true" MaxLength="10" Unicode="true" FixedLength="false" />
                 <Property Name="Proficiency" Type="Edm.String" Nullable="true" MaxLength="2" Unicode="true" FixedLength="false" />
                 <NavigationProperty Name="SkillList" Relationship="NorthwindModel.FK_Skill_SkillList" FromRole="Skill" ToRole="SkillList" />
+                <NavigationProperty Name="Employee" Relationship="NorthwindModel.FK_Skill_Employee" FromRole="Skill" ToRole="Employee" />
+                <NavigationProperty Name="ProficiencyList" Relationship="NorthwindModel.FK_Skill_ProficiencyList" FromRole="Skill" ToRole="ProficiencyList" />
             </EntityType>
             <EntityType Name="ProficiencyList">
                 <Key>
@@ -35,6 +41,7 @@
                 </Key>
                 <Property Name="ProficiencyID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
                 <Property Name="ProficiencyLevel" Type="Edm.String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
+                <NavigationProperty Name="Skill" Relationship="NorthwindModel.FK_Skill_ProficiencyList" FromRole="ProficiencyList" ToRole="Skill" />
             </EntityType>
             <EntityType Name="SkillList">
                 <Key>
@@ -50,7 +57,56 @@
                 </Key>
                 <Property Name="CareerID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
                 <Property Name="CareerLevel" Type="Edm.String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
+                <NavigationProperty Name="Employee" Relationship="NorthwindModel.FK_Employee_CareerList" FromRole="CareerList" ToRole="Employee" />
             </EntityType>
+            <Association Name="FK_Skill_Employee">
+                <End Role="Employee" Type="NorthwindModel.Employee" Multiplicity="0..1" />
+                <End Role="Skill" Type="NorthwindModel.Skill" Multiplicity="*" />
+                <ReferentialConstraint>
+                    <Principal Role="Employee">
+                        <PropertyRef Name="EmployeeID" />
+                    </Principal>
+                    <Dependent Role="Skill">
+                        <PropertyRef Name="EmployeeID" />
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="FK_Employee_CareerList">
+                <End Role="CareerList" Type="NorthwindModel.CareerList" Multiplicity="0..1" />
+                <End Role="Employee" Type="NorthwindModel.Employee" Multiplicity="*" />
+                <ReferentialConstraint>
+                    <Principal Role="CareerList">
+                        <PropertyRef Name="CareerID" />
+                    </Principal>
+                    <Dependent Role="Employee">
+                        <PropertyRef Name="CareerLevel" />
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="FK_Employee_ProjectList">
+                <End Role="ProjectList" Type="NorthwindModel.ProjectList" Multiplicity="0..1" />
+                <End Role="Employee" Type="NorthwindModel.Employee" Multiplicity="*" />
+                <ReferentialConstraint>
+                    <Principal Role="ProjectList">
+                        <PropertyRef Name="ProjectID" />
+                    </Principal>
+                    <Dependent Role="Employee">
+                        <PropertyRef Name="CurrentProject" />
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="FK_Skill_ProficiencyList">
+                <End Role="ProficiencyList" Type="NorthwindModel.ProficiencyList" Multiplicity="0..1" />
+                <End Role="Skill" Type="NorthwindModel.Skill" Multiplicity="*" />
+                <ReferentialConstraint>
+                    <Principal Role="ProficiencyList">
+                        <PropertyRef Name="ProficiencyID" />
+                    </Principal>
+                    <Dependent Role="Skill">
+                        <PropertyRef Name="Proficiency" />
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
             <Association Name="FK_Skill_SkillList">
                 <End Role="SkillList" Type="NorthwindModel.SkillList" Multiplicity="0..1" />
                 <End Role="Skill" Type="NorthwindModel.Skill" Multiplicity="*" />
@@ -72,6 +128,22 @@
                 <EntitySet Name="ProficiencyList" EntityType="NorthwindModel.ProficiencyList" />
                 <EntitySet Name="SkillList" EntityType="NorthwindModel.SkillList" />
                 <EntitySet Name="CareerList" EntityType="NorthwindModel.CareerList" />
+                <AssociationSet Name="FK_Skill_Employee" Association="NorthwindModel.FK_Skill_Employee">
+                    <End Role="Employee" EntitySet="Employee" />
+                    <End Role="Skill" EntitySet="Skill" />
+                </AssociationSet>
+                <AssociationSet Name="FK_Employee_CareerList" Association="NorthwindModel.FK_Employee_CareerList">
+                    <End Role="CareerList" EntitySet="CareerList" />
+                    <End Role="Employee" EntitySet="Employee" />
+                </AssociationSet>
+                <AssociationSet Name="FK_Employee_ProjectList" Association="NorthwindModel.FK_Employee_ProjectList">
+                    <End Role="ProjectList" EntitySet="ProjectList" />
+                    <End Role="Employee" EntitySet="Employee" />
+                </AssociationSet>
+                <AssociationSet Name="FK_Skill_ProficiencyList" Association="NorthwindModel.FK_Skill_ProficiencyList">
+                    <End Role="ProficiencyList" EntitySet="ProficiencyList" />
+                    <End Role="Skill" EntitySet="Skill" />
+                </AssociationSet>
                 <AssociationSet Name="FK_Skill_SkillList" Association="NorthwindModel.FK_Skill_SkillList">
                     <End Role="SkillList" EntitySet="SkillList" />
                     <End Role="Skill" EntitySet="Skill" />
