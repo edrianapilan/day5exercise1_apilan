@@ -27,6 +27,7 @@
                 <Property Name="EmployeeID" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
                 <Property Name="SkillID" Type="Edm.String" Nullable="true" MaxLength="10" Unicode="true" FixedLength="false" />
                 <Property Name="Proficiency" Type="Edm.String" Nullable="true" MaxLength="2" Unicode="true" FixedLength="false" />
+                <NavigationProperty Name="SkillList" Relationship="NorthwindModel.FK_Skill_SkillList" FromRole="Skill" ToRole="SkillList" />
             </EntityType>
             <EntityType Name="ProficiencyList">
                 <Key>
@@ -41,6 +42,7 @@
                 </Key>
                 <Property Name="SkillID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
                 <Property Name="SkillName" Type="Edm.String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+                <NavigationProperty Name="Skill" Relationship="NorthwindModel.FK_Skill_SkillList" FromRole="SkillList" ToRole="Skill" />
             </EntityType>
             <EntityType Name="CareerList">
                 <Key>
@@ -49,15 +51,31 @@
                 <Property Name="CareerID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
                 <Property Name="CareerLevel" Type="Edm.String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
             </EntityType>
+            <Association Name="FK_Skill_SkillList">
+                <End Role="SkillList" Type="NorthwindModel.SkillList" Multiplicity="0..1" />
+                <End Role="Skill" Type="NorthwindModel.Skill" Multiplicity="*" />
+                <ReferentialConstraint>
+                    <Principal Role="SkillList">
+                        <PropertyRef Name="SkillID" />
+                    </Principal>
+                    <Dependent Role="Skill">
+                        <PropertyRef Name="SkillID" />
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
         </Schema>
         <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ODataWebV2.Northwind.Model">
             <EntityContainer xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation" Name="NorthwindEntities" m:IsDefaultEntityContainer="true" p6:LazyLoadingEnabled="true">
-                <EntitySet Name="Employees" EntityType="NorthwindModel.Employee" />
-                <EntitySet Name="ProjectLists" EntityType="NorthwindModel.ProjectList" />
-                <EntitySet Name="Skills" EntityType="NorthwindModel.Skill" />
-                <EntitySet Name="ProficiencyLists" EntityType="NorthwindModel.ProficiencyList" />
-                <EntitySet Name="SkillLists" EntityType="NorthwindModel.SkillList" />
-                <EntitySet Name="CareerLists" EntityType="NorthwindModel.CareerList" />
+                <EntitySet Name="Employee" EntityType="NorthwindModel.Employee" />
+                <EntitySet Name="ProjectList" EntityType="NorthwindModel.ProjectList" />
+                <EntitySet Name="Skill" EntityType="NorthwindModel.Skill" />
+                <EntitySet Name="ProficiencyList" EntityType="NorthwindModel.ProficiencyList" />
+                <EntitySet Name="SkillList" EntityType="NorthwindModel.SkillList" />
+                <EntitySet Name="CareerList" EntityType="NorthwindModel.CareerList" />
+                <AssociationSet Name="FK_Skill_SkillList" Association="NorthwindModel.FK_Skill_SkillList">
+                    <End Role="SkillList" EntitySet="SkillList" />
+                    <End Role="Skill" EntitySet="Skill" />
+                </AssociationSet>
             </EntityContainer>
         </Schema>
     </edmx:DataServices>
