@@ -40,8 +40,8 @@ sap.ui.define([
                 var oView = this.getView();
                 
                 var oI18n = this.getOwnerComponent().getModel("i18n");
-
-                return oView.setModel(oI18n, "i18n");
+                
+                oView.setModel(oI18n, "i18n");
             },
 
             getAddressModel: function () {
