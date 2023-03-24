@@ -70,7 +70,22 @@
                         </Toolbar>
                     </f:toolbar>
                     <f:content>
+                        <Label id="SkillListLabel" text="{i18n>SkillListText}" labelFor="SkillListSelect" />
+                        <ComboBox id="SkillListSelect" items="{
+                                path: 'EmployeeApp>/SkillList',
+                                sorter: { path: 'SkillID' }
+                            }" change="onInputChange">
+                            <core:Item key="{EmployeeApp>SkillID}" text="{EmployeeApp>SkillName}" />
+                        </ComboBox>
 
+                        <Label id="ProjectListSelect" text="{i18n>ProjectListText}"
+                            labelFor="ProficiencyListSelect" />
+                        <ComboBox id="ProficiencyListSelect" items="{
+                                path: 'EmployeeApp>/ProficiencyList',
+                                sorter: { path: 'ProficiencyID' }
+                            }" change="onInputChange">
+                            <core:Item key="{EmployeeApp>ProficiencyID}" text="{EmployeeApp>ProficiencyLevel}" />
+                        </ComboBox>
                     </f:content>
                 </f:SimpleForm>
             </VBox>

@@ -13,16 +13,6 @@ sap.ui.define([
 
         return Controller.extend("sapips.training.employeeapp.controller.CreateEmployee", {
             onInit: function () {
-                // var oView = this.getView();
-                // var oEmployeeID = oView.byId("EmployeeIDInput");
-                // var oEmployeeIDTmp = oView.byId("EmployeeIDInputTmp");
-
-                // var dateToday = new Date();
-                // var sEmployeeID = "EmployeeID" + new Date().getFullYear() + "" + this.getRandomSequence();
-
-                // oEmployeeID.setValue(sEmployeeID);
-                // oEmployeeIDTmp.setValue(sEmployeeID);
-
                 var oView = this.getView();
                 this.fnCheckValidation(oView);
             },
@@ -52,32 +42,43 @@ sap.ui.define([
                     "CareerLevel": oCareerLevel.getSelectedKey(),
                     "CurrentProject": oCurrentProject.getSelectedKey(),
                 };
-                
-                oModel.create("/Employee", oData, {
-                    success: function () {
-                        MessageBox.confirm("Employee has been created.", {
-                            actions: [MessageBox.Action.OK],
-                            emphasizedAction: MessageBox.Action.OK,
-                            onClose: function (sAction) {
-                                if (sAction === sap.m.MessageBox.Action.OK) {
-                                    oFirstName.setValue("");
-                                    oLastName.setValue("");
-                                    oAge.setValue("");
-                                    oDateHire.setValue("");
-                                    oCareerLevel.setValue("");
-                                    oCurrentProject.setValue("");
-                                    oRouter.navTo("EmployeeProfile", {
-                                        EmployeeID: sEmployeeID
-                                    });
-                                }
-                            }
-                        });
-                    },
 
-                    error: function () {
-                        MessageToast.show("Failed to create employee.");
-                    }
-                });
+                if (
+                    oData.FirstName=="" || 
+                    oData.LastName=="" || 
+                    oData.Age=="" || 
+                    oData.DateHire=="" || 
+                    oData.CareerLevel=="" || 
+                    oData.CurrentProject==""
+                ) {
+                    MessageBox.warning("All (*) fields are required.");
+                } else {
+                    oModel.create("/Employee", oData, {
+                        success: function () {
+                            MessageBox.confirm("Employee has been created.", {
+                                actions: [MessageBox.Action.OK],
+                                emphasizedAction: MessageBox.Action.OK,
+                                onClose: function (sAction) {
+                                    if (sAction === sap.m.MessageBox.Action.OK) {
+                                        oFirstName.setValue("");
+                                        oLastName.setValue("");
+                                        oAge.setValue("");
+                                        oDateHire.setValue("");
+                                        oCareerLevel.setValue("");
+                                        oCurrentProject.setValue("");
+                                        oRouter.navTo("EmployeeProfile", {
+                                            EmployeeID: sEmployeeID
+                                        });
+                                    }
+                                }
+                            });
+                        },
+    
+                        error: function () {
+                            MessageToast.show("Failed to create employee.");
+                        }
+                    });
+                }
             },
 
             onNavBack: function () {
@@ -151,6 +152,30 @@ sap.ui.define([
 
                 if (oInput.getId().includes('CurrentProjectSelect')) {
                     oModel.read("/ProjectList(ProjectID='"+ oInput.getSelectedKey() +"')", {
+                        success: function (oCareer) {}, 
+    
+                        error: function () {
+                            oInput.setValue("");
+                            oInput.setValueState(ValueState.Error);
+                            MessageBox.warning("Valid entries from the list only.");
+                        }
+                    });
+                }
+
+                if (oInput.getId().includes('SkillListSelect')) {
+                    oModel.read("/SkillList(SkillID='"+ oInput.getSelectedKey() +"')", {
+                        success: function (oCareer) {}, 
+    
+                        error: function () {
+                            oInput.setValue("");
+                            oInput.setValueState(ValueState.Error);
+                            MessageBox.warning("Valid entries from the list only.");
+                        }
+                    });
+                }
+
+                if (oInput.getId().includes('ProficiencyListSelect')) {
+                    oModel.read("/ProficiencyList(ProficiencyID='"+ oInput.getSelectedKey() +"')", {
                         success: function (oCareer) {}, 
     
                         error: function () {

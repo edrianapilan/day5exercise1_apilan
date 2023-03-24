@@ -35,6 +35,18 @@ sap.ui.define([
                     },
                     error: function () {}
                 });
+
+                oModel.read("/Employee(EmployeeID='"+ sEmployeeID +"')/Skill", {
+                    urlParameters: {
+                        $expand: "SkillList,ProficiencyList"
+                    },
+                    success: function (oSkill) {
+                        var oEmployeeSkill = new JSONModel(oSkill);
+                        oView.setModel(oEmployeeSkill, "EmployeeSkill");
+                        oView.getModel("EmployeeSkill").refresh();
+                    },
+                    error: function () {}
+                });
             },
 
             onUpdateBtn: function () {
@@ -60,15 +72,114 @@ sap.ui.define([
                     "CurrentProject": oCurrentProject.getSelectedKey(),
                 };
 
-                oModel.update("/Employee(EmployeeID='"+ oData.EmployeeID +"')", oData, {
-                    success: function () {
-                        MessageToast.show("Employee has been updated.");
-                    },
+                if (
+                    oData.FirstName=="" || 
+                    oData.LastName=="" || 
+                    oData.Age=="" || 
+                    oData.DateHire=="" || 
+                    oData.CareerLevel=="" || 
+                    oData.CurrentProject==""
+                ) {
+                    MessageBox.warning("All (*) fields are required.");
+                } else {
+                    oModel.update("/Employee(EmployeeID='"+ oData.EmployeeID +"')", oData, {
+                        success: function () {
+                            MessageToast.show("Employee has been updated.");
+                        },
+    
+                        error: function () {
+                            MessageToast.show("Failed to update employee.");
+                        }
+                    });
+                }
+            },
 
-                    error: function () {
-                        MessageToast.show("Failed to update employee.");
-                    }
-                });
+            onSaveSkillBtn: function () {
+                var oView = this.getView();
+
+                var oModel = this.getOwnerComponent().getModel("EmployeeApp");
+
+                var oEmployeeID = oView.byId("EmployeeIDInput"),
+                    oSkillListSelect = oView.byId("SkillListSelect"),
+                    oProjectListSelect = oView.byId("ProficiencyListSelect");
+
+                var oData = {
+                    "EmployeeID": oEmployeeID.getValue(),
+                    "SkillID": oSkillListSelect.getSelectedKey(),
+                    "Proficiency": oProjectListSelect.getSelectedKey()
+                };
+
+                if (
+                    oData.oSkillListSelect=="" || 
+                    oData.oProjectListSelect==""
+                ) {
+                    MessageBox.warning("You must fill skill & proficiency.");
+                } else {
+                    oModel.create("/Skill", oData, {
+                        success: function () {
+                            MessageBox.confirm("Skill has been added.", {
+                                actions: [MessageBox.Action.OK],
+                                emphasizedAction: MessageBox.Action.OK,
+                                onClose: function (sAction) {
+                                    if (sAction === sap.m.MessageBox.Action.OK) {
+                                        oSkillListSelect.setValue("");
+                                        oProjectListSelect.setValue("");
+
+                                        window.history.go(-1);
+                                    }
+                                }
+                            });
+                        },
+    
+                        error: function () {
+                            MessageToast.show("Failed to add skill.");
+                        }
+                    });
+                }
+            },
+
+            onDeleteSkillBtn: function () {
+                var oView = this.getView();
+                var oModel = this.getOwnerComponent().getModel("EmployeeApp");
+
+                var oList = this.byId("idEmployeeSkillTable");
+                var items = oList.getSelectedItems();
+
+                if (items.length > 0) {
+                    MessageBox.confirm("Are you sure you want to delete the selected skill/s?", {
+                        actions: [MessageBox.Action.YES, MessageBox.Action.CLOSE],
+                        emphasizedAction: MessageBox.Action.YES,
+                        onClose: function (sAction) {
+                            if (sAction === sap.m.MessageBox.Action.YES) {
+                                var arrFailed = [];
+
+                                for (var i = 0; i < items.length; i++) {
+                                    var item = items[i];
+
+                                    var sEmployeeSkillID = item.getCells()[0].getText();
+
+                                    oModel.remove("/Skill(EmployeeSkillID='"+ sEmployeeSkillID +"')", {
+                                        success: function () {
+                                            
+                                        },
+                    
+                                        error: function () {
+                                            arrFailed.push(sEmployeeSkillID);
+                                        }
+                                    });
+                                }
+
+                                if (arrFailed.length > 0) {
+                                    MessageToast.show("Failed to delete some skill/s.");
+                                } else {
+                                    MessageToast.show("Skill/s has been deleted.");
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    MessageBox.warning("Please select skill/s.");
+                }
             },
 
             onNavBack: function () {
@@ -126,6 +237,30 @@ sap.ui.define([
 
                 if (oInput.getId().includes('CurrentProjectSelect')) {
                     oModel.read("/ProjectList(ProjectID='"+ oInput.getSelectedKey() +"')", {
+                        success: function (oCareer) {}, 
+    
+                        error: function () {
+                            oInput.setValue("");
+                            oInput.setValueState(ValueState.Error);
+                            MessageBox.warning("Valid entries from the list only.");
+                        }
+                    });
+                }
+
+                if (oInput.getId().includes('SkillListSelect')) {
+                    oModel.read("/SkillList(SkillID='"+ oInput.getSelectedKey() +"')", {
+                        success: function (oCareer) {}, 
+    
+                        error: function () {
+                            oInput.setValue("");
+                            oInput.setValueState(ValueState.Error);
+                            MessageBox.warning("Valid entries from the list only.");
+                        }
+                    });
+                }
+
+                if (oInput.getId().includes('ProficiencyListSelect')) {
+                    oModel.read("/ProficiencyList(ProficiencyID='"+ oInput.getSelectedKey() +"')", {
                         success: function (oCareer) {}, 
     
                         error: function () {

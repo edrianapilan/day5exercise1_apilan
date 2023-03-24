@@ -62,7 +62,7 @@
                     </f:content>
                 </f:SimpleForm>
             </VBox>
-            <VBox id="AddBox2" class="sapUiResponsiveMargin">
+            <!-- <VBox id="AddBox2" class="sapUiResponsiveMargin">
                 <f:SimpleForm id="SkillFormToolbar" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4"
                     labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
                     emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1"
@@ -79,7 +79,73 @@
 
                     </f:content>
                 </f:SimpleForm>
+            </VBox> -->
+            <VBox id="AddBox2" class="sapUiResponsiveMargin">
+                <f:SimpleForm id="SkillFormToolbar" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4"
+                    labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
+                    emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1"
+                    singleContainerFullSize="false">
+                    <f:toolbar>
+                        <Toolbar id="TB2">
+                            <Title id="FormTitle2" text="Skills" level="H4" titleStyle="H4" />
+                            <ToolbarSpacer />
+                            <Button type="Transparent" text="Add" enabled="true" press="onSaveSkillBtn" />
+                            <Button type="Reject" text="Delete" enabled="true" press="onDeleteSkillBtn" />
+                        </Toolbar>
+                    </f:toolbar>
+                    <f:content>
+                        <Label id="SkillListLabel" text="{i18n>SkillListText}" labelFor="SkillListSelect" />
+                        <ComboBox id="SkillListSelect" items="{
+                                path: 'EmployeeApp>/SkillList',
+                                sorter: { path: 'SkillID' }
+                            }" change="onInputChange">
+                            <core:Item key="{EmployeeApp>SkillID}" text="{EmployeeApp>SkillName}" />
+                        </ComboBox>
+
+                        <Label id="ProficiencyListLabel" text="{i18n>ProficiencyListText}"
+                            labelFor="ProficiencyListSelect" />
+                        <ComboBox id="ProficiencyListSelect" items="{
+                                path: 'EmployeeApp>/ProficiencyList',
+                                sorter: { path: 'ProficiencyLevel' }
+                            }" change="onInputChange">
+                            <core:Item key="{EmployeeApp>ProficiencyID}" text="{EmployeeApp>ProficiencyLevel}" />
+                        </ComboBox>
+                    </f:content>
+                </f:SimpleForm>
             </VBox>
+            <Panel class="sapUiResponsiveMargin" width="auto">
+                <Table id="idEmployeeSkillTable"
+                    mode="MultiSelect"
+                    growing="true" 
+                    growingThreshold="10"
+                    items="{
+                        path: 'EmployeeSkill>/results',
+                        parameters: {
+                            expand: 'SkillList,ProficiencyList'
+                        }
+                    }">
+                    <columns>
+                        <Column minScreenWidth="Tablet" demandPopin="true" visible="false">
+                            <Text text="SkillID" />
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="Skill" />
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="Proficiency" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem vAlign="Middle">
+                            <cells>
+                                <ObjectIdentifier text="{EmployeeSkill>EmployeeSkillID}" wrapping="false" visible="false" />
+                                <Text text="{EmployeeSkill>SkillList/SkillName}" wrapping="false" />
+                                <Text text="{EmployeeSkill>ProficiencyList/ProficiencyLevel}" wrapping="false" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </Panel>
         </content>
         <footer>
             <Toolbar id="idAddPageToolbar">
