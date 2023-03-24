@@ -6,10 +6,10 @@
                     <PropertyRef Name="EmployeeID" />
                 </Key>
                 <Property Name="EmployeeID" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
-                <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
-                <Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+                <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+                <Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
                 <Property Name="Age" Type="Edm.Int16" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
-                <Property Name="DateHire" Type="Edm.String" Nullable="false" />
+                <Property Name="DateHire" Type="Edm.DateTime" Nullable="true" />
                 <Property Name="CareerLevel" Type="Edm.String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
                 <Property Name="CurrentProject" Type="Edm.String" Nullable="true" MaxLength="40" Unicode="true" FixedLength="false" />
                 <NavigationProperty Name="Skill" Relationship="NorthwindModel.FK_Skill_Employee" FromRole="Employee" ToRole="Skill" />
@@ -26,8 +26,9 @@
             </EntityType>
             <EntityType Name="Skill">
                 <Key>
-                    <PropertyRef Name="EmployeeID" />
+                    <PropertyRef Name="EmployeeSkillID" />
                 </Key>
+                <Property Name="EmployeeSkillID" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
                 <Property Name="EmployeeID" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
                 <Property Name="SkillID" Type="Edm.String" Nullable="true" MaxLength="10" Unicode="true" FixedLength="false" />
                 <Property Name="Proficiency" Type="Edm.String" Nullable="true" MaxLength="2" Unicode="true" FixedLength="false" />
@@ -56,7 +57,7 @@
                     <PropertyRef Name="CareerID" />
                 </Key>
                 <Property Name="CareerID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
-                <Property Name="CareerLevel" Type="Edm.String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
+                <Property Name="CareerLevel" Type="Edm.String" Nullable="false" MaxLength="4" Unicode="true" FixedLength="false" />
                 <NavigationProperty Name="Employee" Relationship="NorthwindModel.FK_Employee_CareerList" FromRole="CareerList" ToRole="Employee" />
             </EntityType>
             <Association Name="FK_Skill_Employee">

@@ -1,0 +1,86 @@
+<mvc:View controllerName="sapips.training.employeeapp.controller.CreateEmployee" xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true" xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core">
+    <Page id="idDetailsPage" title="{i18n>title}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <VBox id="AddBox1" class="sapUiResponsiveMargin">
+                <f:SimpleForm id="EmployeeRecordFormToolbar" editable="true" layout="ResponsiveGridLayout"
+                    labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false"
+                    emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1"
+                    singleContainerFullSize="false">
+                    <f:toolbar>
+                        <Toolbar id="TB1">
+                            <Title id="FormTitle1" text="Create Employee Record" level="H4" titleStyle="H4" />
+                        </Toolbar>
+                    </f:toolbar>
+                    <f:content>
+                        <!-- <Label id="EmployeeIDLabel" text="{i18n>EmployeeIDText}" labelFor="EmployeeIDInput" /> -->
+                        <Input id="EmployeeIDInput" maxLength="50" valueStateText="{i18n>ValueStateText}"
+                            editable="false" visible="false" />
+
+                        <Label id="FirstNameLabel" text="{i18n>FirstNameText}" labelFor="FirstNameInput" />
+                        <Input id="FirstNameInput" maxLength="32" valueStateText="{i18n>ValueStateText}"
+                            placeholder="{i18n>InputPlaceholder}" required="true" enabled="true"
+                            change="onInputChange" />
+
+                        <Label id="LastNameLabel" text="{i18n>LastNameText}" labelFor="LastNameInput" />
+                        <Input id="LastNameInput" maxLength="32" valueStateText="{i18n>ValueStateText}"
+                            placeholder="{i18n>InputPlaceholder}" required="true" enabled="true"
+                            change="onInputChange" />
+
+                        <Label id="AgeLabel" text="{i18n>AgeText}" labelFor="AgeInput" />
+                        <Input id="AgeInput" maxLength="2" valueStateText="{i18n>ValueStateText}"
+                            placeholder="{i18n>InputPlaceholder}" required="true" enabled="true"
+                            change="onInputChange" />
+
+                        <Label id="HireDateLabel" text="{i18n>HireDateText}" labelFor="HireDateInput" />
+                        <DatePicker id="HireDateInput" value="" valueFormat="yyyy-MM-dd" displayFormat="long"
+                            required="true" valueStateText="{i18n>ValueStateText}" enabled="true"
+                            change="onInputChange" placeholder="Month Date, Year" />
+
+                        <Label id="CareerLevelLabel" text="{i18n>CareerLevelText}" labelFor="CareerLevelSelect" />
+                        <ComboBox id="CareerLevelSelect" items="{
+                                path: 'EmployeeApp>/CareerList',
+                                sorter: { path: 'CareerLevel' }
+                            }" required="true" change="onInputChange">
+                            <core:Item key="{EmployeeApp>CareerID}" text="{EmployeeApp>CareerLevel}" />
+                        </ComboBox>
+
+                        <Label id="CurrentProjectLabel" text="{i18n>CurrentProjectText}"
+                            labelFor="CurrentProjectSelect" />
+                        <ComboBox id="CurrentProjectSelect" items="{
+                                path: 'EmployeeApp>/ProjectList',
+                                sorter: { path: 'ProjectName' }
+                            }" required="true" change="onInputChange">
+                            <core:Item key="{EmployeeApp>ProjectID}" text="{EmployeeApp>ProjectName}" />
+                        </ComboBox>
+                    </f:content>
+                </f:SimpleForm>
+            </VBox>
+            <VBox id="AddBox2" class="sapUiResponsiveMargin">
+                <f:SimpleForm id="SkillFormToolbar" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4"
+                    labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
+                    emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1"
+                    singleContainerFullSize="false">
+                    <f:toolbar>
+                        <Toolbar id="TB2">
+                            <Title id="FormTitle2" text="Skills" level="H4" titleStyle="H4" />
+                            <ToolbarSpacer />
+                            <Button type="Transparent" text="Add" enabled="true" press="" />
+                            <Button type="Reject" text="Delete" enabled="true" press="" />
+                        </Toolbar>
+                    </f:toolbar>
+                    <f:content>
+
+                    </f:content>
+                </f:SimpleForm>
+            </VBox>
+        </content>
+        <footer>
+            <Toolbar id="idAddPageToolbar">
+                <ToolbarSpacer id="idAddPageToolbarSpacer" />
+                <Button type="Emphasized" id="idSaveBtn" text="Save" press="onSaveBtn" />
+                <Button type="Transparent" id="idCancelBtn" text="Cancel" press="onCancelBtn" />
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

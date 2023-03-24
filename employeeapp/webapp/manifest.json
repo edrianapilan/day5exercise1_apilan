@@ -69,7 +69,7 @@
           "bundleName": "sapips.training.employeeapp.i18n.i18n"
         }
       },
-      "": {
+      "EmployeeApp": {
         "dataSource": "mainService",
         "preload": true,
         "settings": {}
@@ -99,6 +99,20 @@
           "target": [
             "TargetEmployeeList"
           ]
+        }, 
+        {
+          "name": "CreateEmployee",
+          "pattern": "CreateEmployee",
+          "target": [
+            "TargetCreateEmployee"
+          ]
+        }, 
+        {
+          "name": "EmployeeProfile",
+          "pattern": "EmployeeProfile/{EmployeeID}",
+          "target": [
+            "TargetEmployeeProfile"
+          ]
         }
       ],
       "targets": {
@@ -108,6 +122,14 @@
           "clearControlAggregation": false,
           "viewId": "EmployeeList",
           "viewName": "EmployeeList"
+        },
+        "TargetCreateEmployee": {
+          "viewType" : "XML",
+          "viewName" : "CreateEmployee"
+        },
+        "TargetEmployeeProfile": {
+          "viewType" : "XML",
+          "viewName" : "EmployeeProfile"
         }
       }
     },

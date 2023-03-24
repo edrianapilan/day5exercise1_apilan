@@ -29,7 +29,7 @@ sap.ui.define([
                 };
 
                 oModel.create("/Products", oData, {
-                    
+                    MessageToast.show(
                 });
             }
         });

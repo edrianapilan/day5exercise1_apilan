@@ -1,9 +1,74 @@
-<mvc:View controllerName="sapips.training.employeeapp.controller.EmployeeList"
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
+<mvc:View controllerName="sapips.training.employeeapp.controller.EmployeeList" xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
     <Page id="page" title="{i18n>title}">
         <content>
-            <Text text="Hello World" />
+            <Panel class="sapUiResponsiveMargin" width="auto">
+                <Table id="idEmployeesTable"
+                    mode="MultiSelect"
+                    growing="true" 
+                    growingThreshold="10"
+                    items="{
+                        path: 'EmployeeApp>/Employee',
+                        parameters: {
+                            expand: 'CareerList,ProjectList'
+                        },
+                        sorter: {
+                            path: 'EmployeeID'
+                        }
+                    }">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="Employees" level="H2"/>
+                            <ToolbarSpacer />
+                            <SearchField liveChange=".onSearch" width="25%" />
+                            <Button type="Transparent" text="Add" enabled="true" press="onCreateEmployeeBtn" />
+                            <Button type="Reject" text="Delete" enabled="true" press="onDeleteBtn" />
+                        </Toolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="{i18n>EmployeeIDText}" />
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="{i18n>FirstNameText}" />
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="{i18n>LastNameText}" />
+                        </Column>
+                        <Column width="12em" hAlign="End">
+                            <Text text="{i18n>AgeText}" />
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="{i18n>HireDateText}" />
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="{i18n>CareerLevelText}" />
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="{i18n>CurrentProjectText}" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem vAlign="Middle" type="Navigation" press="onPressListItem">
+                            <cells>
+                                <ObjectIdentifier text="{EmployeeApp>EmployeeID}" wrapping="false" />
+                                <Text text="{EmployeeApp>FirstName}" wrapping="false" />
+                                <Text text="{EmployeeApp>LastName}" wrapping="false" />
+                                <Text text="{EmployeeApp>Age}" wrapping="false" />
+                                <Text text="{ 
+                                    path: 'EmployeeApp>DateHire',
+                                    type: 'sap.ui.model.type.DateTime',
+                                    formatOptions: { 
+                                        pattern: 'MMMM dd, yyyy' 
+                                    }  
+                                }" wrapping="false" />
+                                <Text text="{EmployeeApp>CareerList/CareerLevel}" wrapping="false" />
+                                <Text text="{EmployeeApp>ProjectList/ProjectName}" wrapping="false" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </Panel>
         </content>
     </Page>
 </mvc:View>

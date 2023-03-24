@@ -1,0 +1,92 @@
+[
+    {
+        "FirstName": "Juan",
+        "LastName": "Dela Cruz",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022264487",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    },
+    {
+        "FirstName": "Juan",
+        "LastName": "Tamad",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022302443",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    },
+    {
+        "FirstName": "Juan",
+        "LastName": "Santos",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022764814",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    },
+    {
+        "FirstName": "Juan",
+        "LastName": "Mang",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022844624",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    },
+    {
+        "FirstName": "Juan",
+        "LastName": "Lucas",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022782401",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    },
+    {
+        "FirstName": "Maria",
+        "LastName": "Teresa",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022782402",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    },
+    {
+        "FirstName": "Maria",
+        "LastName": "Santos",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022782403",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    },
+    {
+        "FirstName": "Maria",
+        "LastName": "Liwanag",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022782404",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    },
+    {
+        "FirstName": "Maria",
+        "LastName": "Santamesia",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022782405",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    },
+    {
+        "FirstName": "Maria",
+        "LastName": "Dela Santos",
+        "Age": 23,
+        "DateHire": "/Date(1641911560000)/",
+        "EmployeeID": "EMP2022782406",
+        "CareerLevel": "gIOkdctBCO",
+        "CurrentProject": "sybcBCXACX"
+    }
+]
