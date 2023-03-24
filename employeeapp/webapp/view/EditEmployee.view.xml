@@ -1,4 +1,4 @@
-<mvc:View controllerName="sapips.training.employeeapp.controller.CreateEmployee" xmlns:mvc="sap.ui.core.mvc"
+<mvc:View controllerName="sapips.training.employeeapp.controller.EditEmployee" xmlns:mvc="sap.ui.core.mvc"
     displayBlock="true" xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core">
     <Page id="idDetailsPage" title="{i18n>title}" showNavButton="true" navButtonPress="onNavBack">
         <content>
@@ -9,31 +9,37 @@
                     singleContainerFullSize="false">
                     <f:toolbar>
                         <Toolbar id="TB1">
-                            <Title id="FormTitle1" text="Create Employee Record" level="H4" titleStyle="H4" />
+                            <Title id="FormTitle1" text="Update Employee Record" level="H4" titleStyle="H4" />
                         </Toolbar>
                     </f:toolbar>
                     <f:content>
-                        <!-- <Label id="EmployeeIDLabel" text="{i18n>EmployeeIDText}" labelFor="EmployeeIDInput" /> -->
+                        <Label id="EmployeeIDLabel" text="{i18n>EmployeeIDText}" labelFor="EmployeeIDInput" />
                         <Input id="EmployeeIDInput" maxLength="50" valueStateText="{i18n>ValueStateText}"
-                            editable="false" visible="false" />
+                            value="{EmployeeProfile>/EmployeeID}" editable="false" />
 
                         <Label id="FirstNameLabel" text="{i18n>FirstNameText}" labelFor="FirstNameInput" />
                         <Input id="FirstNameInput" maxLength="32" valueStateText="{i18n>ValueStateText}"
                             placeholder="{i18n>InputPlaceholder}" required="true" enabled="true"
-                            change="onInputChange" />
+                            value="{EmployeeProfile>/FirstName}" change="onInputChange" />
 
                         <Label id="LastNameLabel" text="{i18n>LastNameText}" labelFor="LastNameInput" />
                         <Input id="LastNameInput" maxLength="32" valueStateText="{i18n>ValueStateText}"
                             placeholder="{i18n>InputPlaceholder}" required="true" enabled="true"
-                            change="onInputChange" />
+                            value="{EmployeeProfile>/LastName}" change="onInputChange" />
 
                         <Label id="AgeLabel" text="{i18n>AgeText}" labelFor="AgeInput" />
                         <Input id="AgeInput" maxLength="2" valueStateText="{i18n>ValueStateText}"
                             placeholder="{i18n>InputPlaceholder}" required="true" enabled="true"
-                            change="onInputChange" />
+                            value="{EmployeeProfile>/Age}" change="onInputChange" />
 
                         <Label id="HireDateLabel" text="{i18n>HireDateText}" labelFor="HireDateInput" />
-                        <DatePicker id="HireDateInput" value="" valueFormat="yyyy-MM-dd" displayFormat="long"
+                        <DatePicker id="HireDateInput" value="{
+                                'type': 'sap.ui.model.type.Date',
+                                'path': 'EmployeeProfile>/DateHire',
+                                'formatOptions': {
+                                    'pattern': 'MMMM dd, yyyy'
+                                }
+                            }" valueFormat="yyyy-MM-dd" displayFormat="long"
                             required="true" valueStateText="{i18n>ValueStateText}" enabled="true"
                             change="onInputChange" placeholder="Month Date, Year" />
 
@@ -41,7 +47,7 @@
                         <ComboBox id="CareerLevelSelect" items="{
                                 path: 'EmployeeApp>/CareerList',
                                 sorter: { path: 'CareerLevel' }
-                            }" required="true" change="onInputChange">
+                            }" selectedKey="{EmployeeProfile>/CareerLevel}" required="true" change="onInputChange">
                             <core:Item key="{EmployeeApp>CareerID}" text="{EmployeeApp>CareerLevel}" />
                         </ComboBox>
 
@@ -50,7 +56,7 @@
                         <ComboBox id="CurrentProjectSelect" items="{
                                 path: 'EmployeeApp>/ProjectList',
                                 sorter: { path: 'ProjectName' }
-                            }" required="true" change="onInputChange">
+                            }" selectedKey="{EmployeeProfile>/CurrentProject}" required="true" change="onInputChange">
                             <core:Item key="{EmployeeApp>ProjectID}" text="{EmployeeApp>ProjectName}" />
                         </ComboBox>
                     </f:content>
@@ -78,7 +84,7 @@
         <footer>
             <Toolbar id="idAddPageToolbar">
                 <ToolbarSpacer id="idAddPageToolbarSpacer" />
-                <Button type="Emphasized" id="idSaveBtn" text="Save" press="onSaveBtn" />
+                <Button type="Emphasized" id="idUpdateBtn" text="Update" press="onUpdateBtn" />
                 <Button type="Transparent" id="idCancelBtn" text="Cancel" navButtonPress="onNavBack" />
             </Toolbar>
         </footer>

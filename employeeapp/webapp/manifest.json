@@ -108,6 +108,13 @@
           ]
         }, 
         {
+          "name": "EditEmployee",
+          "pattern": "EditEmployee/{EmployeeID}",
+          "target": [
+            "TargetEditEmployee"
+          ]
+        }, 
+        {
           "name": "EmployeeProfile",
           "pattern": "EmployeeProfile/{EmployeeID}",
           "target": [
@@ -126,6 +133,10 @@
         "TargetCreateEmployee": {
           "viewType" : "XML",
           "viewName" : "CreateEmployee"
+        },
+        "TargetEditEmployee": {
+          "viewType" : "XML",
+          "viewName" : "EditEmployee"
         },
         "TargetEmployeeProfile": {
           "viewType" : "XML",

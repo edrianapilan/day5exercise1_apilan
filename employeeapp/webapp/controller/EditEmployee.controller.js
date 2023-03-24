@@ -3,48 +3,55 @@ sap.ui.define([
     "sap/ui/core/routing/History",
     "sap/ui/core/ValueState",
     "sap/m/MessageToast",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    "sap/ui/model/json/JSONModel"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, History, ValueState, MessageToast, MessageBox) {
+    function (Controller, History, ValueState, MessageToast, MessageBox, JSONModel) {
         "use strict";
 
-        return Controller.extend("sapips.training.employeeapp.controller.CreateEmployee", {
+        return Controller.extend("sapips.training.employeeapp.controller.EditEmployee", {
             onInit: function () {
-                // var oView = this.getView();
-                // var oEmployeeID = oView.byId("EmployeeIDInput");
-                // var oEmployeeIDTmp = oView.byId("EmployeeIDInputTmp");
-
-                // var dateToday = new Date();
-                // var sEmployeeID = "EmployeeID" + new Date().getFullYear() + "" + this.getRandomSequence();
-
-                // oEmployeeID.setValue(sEmployeeID);
-                // oEmployeeIDTmp.setValue(sEmployeeID);
-
-                var oView = this.getView();
-                this.fnCheckValidation(oView);
+                this.getRouter().getRoute('EditEmployee').attachPatternMatched(this._onObjectMatched, this);
             },
 
-            onSaveBtn: function () {
+            _onObjectMatched: function (oEvent) {
                 var oView = this.getView();
-
-                var oRouter = this.getRouter();
 
                 var oModel = this.getOwnerComponent().getModel("EmployeeApp");
 
-                var oFirstName = oView.byId("FirstNameInput"),
+                var sEmployeeID = oEvent.getParameter("arguments").EmployeeID;
+
+                oModel.read("/Employee(EmployeeID='"+ sEmployeeID +"')", {
+                    urlParameters: {
+                        $expand: "CareerList,ProjectList,Skill"
+                    },
+                    success: function (oEmployee) {
+                        var oEmployeeProfile = new JSONModel(oEmployee);
+                        oView.setModel(oEmployeeProfile, "EmployeeProfile");
+                        oView.getModel("EmployeeProfile").refresh();
+                    },
+                    error: function () {}
+                });
+            },
+
+            onUpdateBtn: function () {
+                var oView = this.getView();
+
+                var oModel = this.getOwnerComponent().getModel("EmployeeApp");
+
+                var oEmployeeID = oView.byId("EmployeeIDInput"),
+                    oFirstName = oView.byId("FirstNameInput"),
                     oLastName = oView.byId("LastNameInput"),
                     oAge = oView.byId("AgeInput"),
                     oDateHire = oView.byId("HireDateInput"),
                     oCareerLevel = oView.byId("CareerLevelSelect"),
                     oCurrentProject = oView.byId("CurrentProjectSelect");
 
-                var sEmployeeID = this.getEmployeeID(oFirstName.getValue(), oLastName.getValue()).trim();
-
                 var oData = {
-                    "EmployeeID": sEmployeeID,
+                    "EmployeeID": oEmployeeID.getValue(),
                     "FirstName": oFirstName.getValue(),
                     "LastName": oLastName.getValue(),
                     "Age": oAge.getValue(),
@@ -52,30 +59,14 @@ sap.ui.define([
                     "CareerLevel": oCareerLevel.getSelectedKey(),
                     "CurrentProject": oCurrentProject.getSelectedKey(),
                 };
-                
-                oModel.create("/Employee", oData, {
+
+                oModel.update("/Employee(EmployeeID='"+ oData.EmployeeID +"')", oData, {
                     success: function () {
-                        MessageBox.confirm("Employee has been created.", {
-                            actions: [MessageBox.Action.OK],
-                            emphasizedAction: MessageBox.Action.OK,
-                            onClose: function (sAction) {
-                                if (sAction === sap.m.MessageBox.Action.OK) {
-                                    oFirstName.setValue("");
-                                    oLastName.setValue("");
-                                    oAge.setValue("");
-                                    oDateHire.setValue("");
-                                    oCareerLevel.setValue("");
-                                    oCurrentProject.setValue("");
-                                    oRouter.navTo("EmployeeProfile", {
-                                        EmployeeID: sEmployeeID
-                                    });
-                                }
-                            }
-                        });
+                        MessageToast.show("Employee has been updated.");
                     },
 
                     error: function () {
-                        MessageToast.show("Failed to create employee.");
+                        MessageToast.show("Failed to update employee.");
                     }
                 });
             },
@@ -83,22 +74,6 @@ sap.ui.define([
             onNavBack: function () {
                 var oHistory = History.getInstance();
                 var sPreviousHash = oHistory.getPreviousHash();
-
-                var oView = this.getView();
-
-                var oFirstName = oView.byId("FirstNameInput"),
-                    oLastName = oView.byId("LastNameInput"),
-                    oAge = oView.byId("AgeInput"),
-                    oDateHire = oView.byId("HireDateInput"),
-                    oCareerLevel = oView.byId("CareerLevelSelect"),
-                    oCurrentProject = oView.byId("CurrentProjectSelect");
-
-                oFirstName.setValue("");
-                oLastName.setValue("");
-                oAge.setValue("");
-                oDateHire.setValue("");
-                oCareerLevel.setValue("");
-                oCurrentProject.setValue("");
 
                 if (sPreviousHash && sPreviousHash !== undefined) {
                     window.history.go(-1);
@@ -165,21 +140,17 @@ sap.ui.define([
             fnCheckValidation: function (oView) {
                 var oFirstName = oView.byId("FirstNameInput");
                     oFirstName.attachBrowserEvent("keypress", function(event) {
-                        var charCode = event.keyCode;
-                        if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8) {
-                            return true;
-                        } else {
-                            return false;
+                        var inputValue = event.which;
+                        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) { 
+                            event.preventDefault(); 
                         }
                     });
 
                 var oLastName = oView.byId("LastNameInput");
                     oLastName.attachBrowserEvent("keypress", function(event) {
-                        var charCode = event.keyCode;
-                        if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8) {
-                            return true;
-                        } else {
-                            return false;
+                        var inputValue = event.which;
+                        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) { 
+                            event.preventDefault(); 
                         }
                     });
 
@@ -190,15 +161,6 @@ sap.ui.define([
                             event.preventDefault();
                         }
                     });
-            },
-
-            getEmployeeID: function (firstName, lastName) {
-                var dateToday = new Date();
-                return "EMPID" + firstName.toUpperCase() + lastName.toUpperCase() + dateToday.getDate() + (dateToday.getMonth()+1);
-            },
-
-            getRandomSequence: function () {
-                return Math.floor(100000 + Math.random() * 900000);
             },
 
             getRouter: function () {

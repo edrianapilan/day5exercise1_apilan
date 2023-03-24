@@ -20,7 +20,7 @@
                 <Key>
                     <PropertyRef Name="ProjectID" />
                 </Key>
-                <Property Name="ProjectID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+                <Property Name="ProjectID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                 <Property Name="ProjectName" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
                 <NavigationProperty Name="Employee" Relationship="NorthwindModel.FK_Employee_ProjectList" FromRole="ProjectList" ToRole="Employee" />
             </EntityType>
@@ -28,7 +28,7 @@
                 <Key>
                     <PropertyRef Name="EmployeeSkillID" />
                 </Key>
-                <Property Name="EmployeeSkillID" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
+                <Property Name="EmployeeSkillID" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                 <Property Name="EmployeeID" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
                 <Property Name="SkillID" Type="Edm.String" Nullable="true" MaxLength="10" Unicode="true" FixedLength="false" />
                 <Property Name="Proficiency" Type="Edm.String" Nullable="true" MaxLength="2" Unicode="true" FixedLength="false" />
@@ -40,7 +40,7 @@
                 <Key>
                     <PropertyRef Name="ProficiencyID" />
                 </Key>
-                <Property Name="ProficiencyID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+                <Property Name="ProficiencyID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                 <Property Name="ProficiencyLevel" Type="Edm.String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
                 <NavigationProperty Name="Skill" Relationship="NorthwindModel.FK_Skill_ProficiencyList" FromRole="ProficiencyList" ToRole="Skill" />
             </EntityType>
@@ -48,7 +48,7 @@
                 <Key>
                     <PropertyRef Name="SkillID" />
                 </Key>
-                <Property Name="SkillID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+                <Property Name="SkillID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                 <Property Name="SkillName" Type="Edm.String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
                 <NavigationProperty Name="Skill" Relationship="NorthwindModel.FK_Skill_SkillList" FromRole="SkillList" ToRole="Skill" />
             </EntityType>
@@ -56,7 +56,7 @@
                 <Key>
                     <PropertyRef Name="CareerID" />
                 </Key>
-                <Property Name="CareerID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+                <Property Name="CareerID" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                 <Property Name="CareerLevel" Type="Edm.String" Nullable="false" MaxLength="4" Unicode="true" FixedLength="false" />
                 <NavigationProperty Name="Employee" Relationship="NorthwindModel.FK_Employee_CareerList" FromRole="CareerList" ToRole="Employee" />
             </EntityType>

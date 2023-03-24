@@ -1,12 +1,14 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
+    "sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator",
     "sap/ui/core/routing/History",
     "sap/ui/model/json/JSONModel"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, History, JSONModel) {
+    function (Controller, Filter, FilterOperator, History, JSONModel) {
         "use strict";
 
         return Controller.extend("sapips.training.employeeapp.controller.EmployeeProfile", {
@@ -15,14 +17,15 @@ sap.ui.define([
             },
 
             onNavBack: function () {
-                var oHistory = History.getInstance();
-                var sPreviousHash = oHistory.getPreviousHash();
+                this.getRouter().navTo("RouteEmployeeList");
+                // var oHistory = History.getInstance();
+                // var sPreviousHash = oHistory.getPreviousHash();
 
-                if (sPreviousHash && sPreviousHash !== undefined) {
-                    window.history.go(-1);
-                } else {
-                    this.getRouter().navTo("RouteEmployeeList");
-                }
+                // if (sPreviousHash && sPreviousHash !== undefined) {
+                //     window.history.go(-1);
+                // } else {
+                //     this.getRouter().navTo("RouteEmployeeList");
+                // }
             },
 
             getRouter: function () {
@@ -39,16 +42,13 @@ sap.ui.define([
                 oModel.read("/Employee(EmployeeID='"+ sEmployeeID +"')", {
                     success: function (oEmployee) {
                         var oEmployeeProfile = new JSONModel();
-                        
                         var oEmployeeData = jQuery.extend(
                             {
                                 "FullName": oEmployee.FirstName + " " + oEmployee.LastName
                             }, 
                             oEmployee
                         );
-
                         oEmployeeProfile.setData(oEmployeeData);
-
                         oView.setModel(oEmployeeProfile, "EmployeeProfile");
 
                         oModel.read("/CareerList(CareerID='"+ oEmployee.CareerLevel +"')", {
@@ -74,6 +74,25 @@ sap.ui.define([
                     }, 
 
                     error: function () {}
+                });
+
+                oModel.read("/Employee(EmployeeID='"+ sEmployeeID +"')/Skill", {
+                    urlParameters: {
+                        $expand: "SkillList,ProficiencyList"
+                    },
+                    success: function (oSkill) {
+                        var oEmployeeSkill = new JSONModel(oSkill);
+                        oView.setModel(oEmployeeSkill, "EmployeeSkill");
+                        oView.getModel("EmployeeSkill").refresh();
+                    },
+                    error: function () {}
+                });
+            },
+
+            onEditBtn: function () {
+                var sEmployeeID = this.getView().byId('idTextEmployeeID').getText();
+                this.getRouter().navTo("EditEmployee", {
+                    EmployeeID: sEmployeeID
                 });
             }
         });
